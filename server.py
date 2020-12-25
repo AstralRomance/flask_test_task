@@ -1,3 +1,4 @@
+import os
 import json
 
 from flask import Flask, request
@@ -12,7 +13,7 @@ distance_matrix = Distance()
 @app.route('/', methods=['GET'])
 def path_find_service():
     # REPLACE API TOKEN TO ENV VARIABLE
-    if int(request.headers['X-API-KEY']) not in (123321,):
+    if int(request.headers['X-API-KEY']) != int(os.environ.get('TEST_API_TOKEN')):
         abort(404, description={'body': 'invalid token'})
     try:
         data = json.loads(request.data)
@@ -27,10 +28,9 @@ def path_find_service():
             abort(404, jsonify({'input': data, 'body': 'invalid input. Number is not int'}))
     except KeyError:
         abort(404, description = {'body': 'invalid input'})
-    valid_response = {'body':distance_matrix.length_find(int(data['city_start']), int(data['city_finish']))}
+    valid_response = {'body':distance_matrix.length_find(data['city_start'], data['city_finish'])}
     if valid_response['body']['distance'] == 0:
         abort(jsonify({'input': input_data, 'body': 'invalid input. Number is not int'}))
-    
     return jsonify(valid_response)
 
 

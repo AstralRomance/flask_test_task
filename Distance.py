@@ -14,7 +14,7 @@ class Distance:
         return response_info
 
     def find_path(self, path_start: int, path_finish: int) -> list:
-        path = [int(path_finish)]
+        path = [path_finish]
         temp = path_finish
         while self.predecessors[path_start, temp] != -9999:
             path.append(int(self.predecessors[path_start, temp]))
