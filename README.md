@@ -1,4 +1,5 @@
 # Basic setup project
+Python 3.7 required
 
 1. Run in linux teminal:
 ```
